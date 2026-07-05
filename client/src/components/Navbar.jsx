@@ -1,60 +1,72 @@
-import { Link } from "react-router-dom";
+import { Link, useNavigate } from "react-router-dom";
 
 function Navbar() {
+  const navigate = useNavigate();
+
+  const token = localStorage.getItem("token");
+  const name = localStorage.getItem("name");
+
+  const logout = () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("name");
+
+    alert("Logged out successfully!");
+
+    navigate("/login");
+
+    window.location.reload();
+  };
+
   return (
-    <nav
-      style={{
-        background: "#0f172a",
-        padding: "15px",
-        display: "flex",
-        justifyContent: "space-between",
-        alignItems: "center",
-      }}
-    >
-      <h2 style={{ color: "white" }}>🌍 TravelVault</h2>
+    <nav className="navbar">
+      <div className="nav-container">
 
-      <div>
-        <Link
-          to="/"
-          style={{ color: "white", marginRight: "20px", textDecoration: "none" }}
-        >
-          Home
-        </Link>
+        <h2 className="logo">🌍 TravelVault</h2>
 
-        <Link
-          to="/login"
-          style={{ color: "white", marginRight: "20px", textDecoration: "none" }}
-        >
-          Login
-        </Link>
+        <div className="nav-links">
 
-        <Link
-          to="/register"
-          style={{ color: "white", marginRight: "20px", textDecoration: "none" }}
-        >
-          Register
-        </Link>
+          <Link to="/">Home</Link>
 
-        <Link
-          to="/dashboard"
-          style={{ color: "white", marginRight: "20px", textDecoration: "none" }}
-        >
-          Dashboard
-        </Link>
+          {!token ? (
+            <>
+              <Link to="/login">Login</Link>
 
-        <Link
-          to="/trips"
-          style={{ color: "white", marginRight: "20px", textDecoration: "none" }}
-        >
-          Trips
-        </Link>
+              <Link to="/register">Register</Link>
+            </>
+          ) : (
+            <>
+              <span
+                style={{
+                  color: "white",
+                  fontWeight: "bold",
+                }}
+              >
+                👋 Hi, {name}
+              </span>
 
-        <Link
-          to="/add-trip"
-          style={{ color: "white", textDecoration: "none" }}
-        >
-          Add Trip
-        </Link>
+              <Link to="/dashboard">Dashboard</Link>
+
+              <Link to="/trips">Trips</Link>
+
+              <Link to="/add-trip">Add Trip</Link>
+
+              <button
+                onClick={logout}
+                style={{
+                  background: "#ef4444",
+                  color: "white",
+                  border: "none",
+                  padding: "8px 15px",
+                  borderRadius: "6px",
+                  cursor: "pointer",
+                }}
+              >
+                Logout
+              </button>
+            </>
+          )}
+
+        </div>
       </div>
     </nav>
   );

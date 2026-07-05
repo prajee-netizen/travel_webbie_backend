@@ -26,7 +26,7 @@ function AddTrip() {
     try {
       await API.post("/trips", trip);
 
-      alert("Trip Added Successfully!");
+      alert("🎉 Trip Added Successfully!");
 
       navigate("/trips");
     } catch (error) {
@@ -37,62 +37,94 @@ function AddTrip() {
 
   return (
     <div className="container">
-      <h1>Add Trip ✈️</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="destination"
-          placeholder="Destination"
-          value={trip.destination}
-          onChange={handleChange}
-          required
-        />
+      <div className="form-container">
 
-        <br /><br />
+        <h1>✈️ Plan Your Next Adventure</h1>
 
-        <input
-          type="date"
-          name="startDate"
-          value={trip.startDate}
-          onChange={handleChange}
-          required
-        />
+        <p
+          style={{
+            textAlign: "center",
+            color: "#94a3b8",
+            marginBottom: "30px",
+          }}
+        >
+          Fill in your travel details and start planning your journey.
+        </p>
 
-        <br /><br />
+        <form onSubmit={handleSubmit}>
 
-        <input
-          type="date"
-          name="endDate"
-          value={trip.endDate}
-          onChange={handleChange}
-          required
-        />
+          <div className="form-group">
+            <label>🌍 Destination</label>
 
-        <br /><br />
+            <input
+              type="text"
+              name="destination"
+              placeholder="e.g. Tokyo, Japan"
+              value={trip.destination}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="number"
-          name="budget"
-          placeholder="Budget"
-          value={trip.budget}
-          onChange={handleChange}
-          required
-        />
+          <div className="form-group">
+            <label>📅 Start Date</label>
 
-        <br /><br />
+            <input
+              type="date"
+              name="startDate"
+              value={trip.startDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <textarea
-          name="notes"
-          placeholder="Notes"
-          value={trip.notes}
-          onChange={handleChange}
-        />
+          <div className="form-group">
+            <label>🏁 End Date</label>
 
-        <br /><br />
+            <input
+              type="date"
+              name="endDate"
+              value={trip.endDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button type="submit">Add Trip</button>
-      </form>
+          <div className="form-group">
+            <label>💰 Budget (₹)</label>
+
+            <input
+              type="number"
+              name="budget"
+              placeholder="Enter your travel budget"
+              value={trip.budget}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>📝 Notes</label>
+
+            <textarea
+              name="notes"
+              placeholder="Hotels, places to visit, reminders..."
+              value={trip.notes}
+              onChange={handleChange}
+            ></textarea>
+          </div>
+
+          <div className="form-actions">
+            <button type="submit">
+              🚀 Create Trip
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
     </div>
   );
 }

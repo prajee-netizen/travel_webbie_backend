@@ -23,23 +23,24 @@ function Login() {
     try {
       const res = await API.post("/users/login", formData);
 
-      // Save JWT
       localStorage.setItem("token", res.data.token);
+      localStorage.setItem("name", res.data.name);
 
       alert("Login Successful!");
 
       navigate("/dashboard");
+
+      window.location.reload();
+
     } catch (err) {
       alert(err.response?.data?.message || "Login Failed");
     }
   };
 
   return (
-    <div style={{ padding: "30px" }}>
-      <h1>Login</h1>
-
+    <div className="container">
       <form onSubmit={handleSubmit}>
-        <br />
+        <h1>Login</h1>
 
         <input
           type="email"
@@ -47,6 +48,7 @@ function Login() {
           placeholder="Email"
           value={formData.email}
           onChange={handleChange}
+          required
         />
 
         <br /><br />
@@ -57,11 +59,14 @@ function Login() {
           placeholder="Password"
           value={formData.password}
           onChange={handleChange}
+          required
         />
 
         <br /><br />
 
-        <button type="submit">Login</button>
+        <button type="submit">
+          Login
+        </button>
       </form>
     </div>
   );

@@ -28,17 +28,10 @@ function Expenses() {
   };
 
   const deleteExpense = async (id) => {
-    const confirmDelete = window.confirm(
-      "Are you sure you want to delete this expense?"
-    );
-
-    if (!confirmDelete) return;
+    if (!window.confirm("Delete this expense?")) return;
 
     try {
       await API.delete(`/expenses/${id}`);
-
-      alert("Expense deleted successfully!");
-
       fetchExpenses();
     } catch (error) {
       console.log(error);
@@ -48,55 +41,104 @@ function Expenses() {
 
   return (
     <div className="container">
-      <h1>{trip} Expenses 💰</h1>
+
+      <h1>💰 {trip} Expenses</h1>
+
+      <p
+        style={{
+          color: "#94a3b8",
+          marginBottom: "25px",
+        }}
+      >
+        Keep track of every rupee spent during your trip.
+      </p>
+
+      <div className="stats-grid">
+
+        <div className="card">
+          <h2>💸 Total Spent</h2>
+
+          <div className="stat-number">
+            ₹{totalExpense.toLocaleString()}
+          </div>
+
+          <div className="stat-title">
+            Overall Expenses
+          </div>
+        </div>
+
+        <div className="card">
+          <h2>🧾 Records</h2>
+
+          <div className="stat-number">
+            {expenses.length}
+          </div>
+
+          <div className="stat-title">
+            Expense Entries
+          </div>
+        </div>
+
+      </div>
 
       <br />
 
       <Link to={`/add-expense/${tripId}`}>
-        <button>Add Expense</button>
+        <button>➕ Add Expense</button>
       </Link>
 
       <br />
       <br />
 
       {expenses.length === 0 ? (
-        <h3>No Expenses Found</h3>
+        <div className="trip-card">
+          <h2>No Expenses Yet 💳</h2>
+          <p>Add your first expense to start tracking.</p>
+        </div>
       ) : (
         expenses.map((expense) => (
-          <div className="trip-card" key={expense._id}>
-            <h3>{expense.title}</h3>
+          <div className="expense-card" key={expense._id}>
 
-            <p>
-              <strong>Amount:</strong> ₹{expense.amount}
-            </p>
+            <h2>{expense.title}</h2>
 
-            <p>
-              <strong>Category:</strong> {expense.category}
-            </p>
+            <div className="trip-info">
 
-            <button
-              onClick={() =>
-                navigate(`/edit-expense/${tripId}/${expense._id}`)
-              }
-            >
-              Edit
-            </button>
+              <p>
+                💰 <strong>Amount:</strong> ₹
+                {expense.amount.toLocaleString()}
+              </p>
 
-            <button
-              style={{ marginLeft: "10px" }}
-              onClick={() => deleteExpense(expense._id)}
-            >
-              Delete
-            </button>
+              <p>
+                🏷 <strong>Category:</strong> {expense.category}
+              </p>
 
-            <hr />
+            </div>
+
+            <div className="trip-buttons">
+
+              <button
+                onClick={() =>
+                  navigate(`/edit-expense/${tripId}/${expense._id}`)
+                }
+              >
+                ✏️ Edit
+              </button>
+
+              <button
+                style={{
+                  background: "#ef4444",
+                }}
+                onClick={() => deleteExpense(expense._id)}
+              >
+                🗑 Delete
+              </button>
+
+            </div>
+
           </div>
         ))
       )}
 
-      <br />
-
-      <h2>Total Expenses: ₹{totalExpense}</h2>
     </div>
   );
 }

@@ -30,11 +30,12 @@ function EditTrip() {
           startDate: selectedTrip.startDate.substring(0, 10),
           endDate: selectedTrip.endDate.substring(0, 10),
           budget: selectedTrip.budget,
-          notes: selectedTrip.notes,
+          notes: selectedTrip.notes || "",
         });
       }
     } catch (error) {
       console.log(error);
+      alert("Unable to load trip details.");
     }
   };
 
@@ -51,70 +52,105 @@ function EditTrip() {
     try {
       await API.put(`/trips/${id}`, trip);
 
-      alert("Trip Updated Successfully!");
+      alert("🎉 Trip Updated Successfully!");
 
       navigate("/trips");
     } catch (error) {
       console.log(error);
-      alert("Update Failed");
+      alert("Failed to update trip.");
     }
   };
 
   return (
     <div className="container">
-      <h1>Edit Trip</h1>
 
-      <form onSubmit={handleSubmit}>
-        <input
-          type="text"
-          name="destination"
-          value={trip.destination}
-          onChange={handleChange}
-          required
-        />
+      <div className="form-container">
 
-        <br /><br />
+        <h1>✏️ Edit Trip</h1>
 
-        <input
-          type="date"
-          name="startDate"
-          value={trip.startDate}
-          onChange={handleChange}
-          required
-        />
+        <p
+          style={{
+            textAlign: "center",
+            color: "#94a3b8",
+            marginBottom: "30px",
+          }}
+        >
+          Update your travel plan whenever your journey changes.
+        </p>
 
-        <br /><br />
+        <form onSubmit={handleSubmit}>
 
-        <input
-          type="date"
-          name="endDate"
-          value={trip.endDate}
-          onChange={handleChange}
-          required
-        />
+          <div className="form-group">
+            <label>🌍 Destination</label>
 
-        <br /><br />
+            <input
+              type="text"
+              name="destination"
+              placeholder="Destination"
+              value={trip.destination}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <input
-          type="number"
-          name="budget"
-          value={trip.budget}
-          onChange={handleChange}
-          required
-        />
+          <div className="form-group">
+            <label>📅 Start Date</label>
 
-        <br /><br />
+            <input
+              type="date"
+              name="startDate"
+              value={trip.startDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <textarea
-          name="notes"
-          value={trip.notes}
-          onChange={handleChange}
-        />
+          <div className="form-group">
+            <label>🏁 End Date</label>
 
-        <br /><br />
+            <input
+              type="date"
+              name="endDate"
+              value={trip.endDate}
+              onChange={handleChange}
+              required
+            />
+          </div>
 
-        <button type="submit">Update Trip</button>
-      </form>
+          <div className="form-group">
+            <label>💰 Budget (₹)</label>
+
+            <input
+              type="number"
+              name="budget"
+              placeholder="Enter Budget"
+              value={trip.budget}
+              onChange={handleChange}
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label>📝 Notes</label>
+
+            <textarea
+              name="notes"
+              placeholder="Update your travel notes..."
+              value={trip.notes}
+              onChange={handleChange}
+            />
+          </div>
+
+          <div className="form-actions">
+            <button type="submit">
+              💾 Save Changes
+            </button>
+          </div>
+
+        </form>
+
+      </div>
+
     </div>
   );
 }

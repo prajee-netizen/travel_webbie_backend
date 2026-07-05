@@ -12,6 +12,7 @@ import EditTrip from "./pages/EditTrip";
 import Expenses from "./pages/Expenses";
 import AddExpense from "./pages/AddExpense";
 import EditExpense from "./pages/EditExpense";
+import ProtectedRoute from "./components/ProtectedRoute";
 
 function App() {
   return (
@@ -32,6 +33,7 @@ function App() {
           path="/edit-expense/:tripId/:expenseId"
           element={<EditExpense />}
         />
+        
       </Routes>
     </>
   );
